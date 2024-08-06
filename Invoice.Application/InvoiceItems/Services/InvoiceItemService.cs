@@ -2,6 +2,7 @@
 using Invoice.Application.InvoiceItems.InvoiceItemDto;
 using Invoice.Application.Product.ProductDto;
 using Invoice.Domain.Entites;
+using Invoice.Domain.Filter;
 using Invoice.Domain.Repositry;
 using Microsoft.EntityFrameworkCore;
 using System.Dynamic;
@@ -39,26 +40,26 @@ namespace Invoice.Application.InvoiceItems.Services
                     var invoiceItemResponseDto = mapper.Map<InvoiceItem>(invoiceItem);
                     return invoiceItemResponseDto;
                 }
-        public async Task<IEnumerable<ProductDiscountSales>> GetProductSalesReportAsync(DateTime? startDate, DateTime? endDate)
+        public async Task<IEnumerable<ProductDiscountSales>> GetProductSalesReportAsync(InvoiceItemFilter filter)
         {
-            var allInvoiceItems = await invoiceItemRepositry.GetInvoiceItem(startDate, endDate);
+            var allInvoiceItems = await invoiceItemRepositry.GetInvoiceItem(filter);
 
             var filteredInvoiceItems = allInvoiceItems
-                .Where(item => (!startDate.HasValue || item.CreatedAt >= startDate) &&
-                               (!endDate.HasValue || item.CreatedAt <= endDate))
+                .Where(item => (!filter.startDate.HasValue || item.CreatedAt >= filter.startDate) &&
+                               (!filter.endDate.HasValue || item.CreatedAt <= filter.endDate))
                 .ToList();
 
             var discountSales = mapper.Map<List<ProductDiscountSales>>(filteredInvoiceItems);
 
             return discountSales;
         }
-        public async Task<List<MonthlyReportDiscount>> GetMonthlyReportDiscountAsync(DateTime? startDate, DateTime? endDate)
+        public async Task<List<MonthlyReportDiscount>> GetMonthlyReportDiscountAsync(InvoiceItemFilter filter)
         {
-            var allInvoiceItems = await invoiceItemRepositry.GetInvoiceItem(startDate, endDate);
+            var allInvoiceItems = await invoiceItemRepositry.GetInvoiceItem(filter);
 
             var filteredInvoiceItems = allInvoiceItems
-                .Where(item => (!startDate.HasValue || item.CreatedAt >= startDate) &&
-                               (!endDate.HasValue || item.CreatedAt <= endDate))
+                .Where(item => (!filter.startDate.HasValue || item.CreatedAt >= filter.startDate) &&
+                               (!filter.endDate.HasValue || item.CreatedAt <= filter.endDate))
                 .ToList();
              
             var discountReports = mapper.Map<List<MonthlyReportDiscount>>(filteredInvoiceItems);

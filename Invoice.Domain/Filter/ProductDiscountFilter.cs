@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Invoice.Domain.Filter
 {
-    public class InvoiceItemFilter:MasterFilter
+    public class ProductDiscountFilter:MasterFilter
     {
-        public DateTime? startDate { get; set; }
-
-        public DateTime? endDate { get; set; }
+   
     }
 }

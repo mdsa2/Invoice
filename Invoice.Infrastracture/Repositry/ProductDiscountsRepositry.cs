@@ -1,5 +1,7 @@
 ﻿using Invoice.Domain.Entites;
+using Invoice.Domain.Filter;
 using Invoice.Domain.Repositry;
+using Invoice.Domain.Util;
 using Invoice.Infstracture.DataInvoice;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,9 +29,11 @@ namespace Invoice.Infstracture.Repositry
         }
  
 
-        public async Task<List<ProductDiscounts>> GetProductsDiscounts()
+        public async Task<PaginatedList<ProductDiscounts>> GetProductsDiscounts(ProductDiscountFilter filter)
         {
-         return   await dbContext.ProductDiscounts.ToListAsync();
+            var query = dbContext.ProductDiscounts.AsQueryable();
+
+            return await PaginatedList<ProductDiscounts>.CreateAsync(query, filter.PageNumber, filter.PageSize);
              
         }
 

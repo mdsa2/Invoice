@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Invoice.Application.InvoiceItems.InvoiceItemDto;
+using Invoice.Domain.Filter;
 namespace Invoice.Infstracture.Repositry
 {
     public class InvoiceItemRepositry(DataDbContext dbContext) : IInvoiceItemRepositry
@@ -35,7 +36,7 @@ namespace Invoice.Infstracture.Repositry
             dbContext.invoiceItems.Remove(invoiceItem);
         }
 
-        public async Task<List<InvoiceItem>> GetInvoiceItem(DateTime? startDate, DateTime? endDate)
+        public async Task<List<InvoiceItem>> GetInvoiceItem(InvoiceItemFilter filter)
         {
             var query = dbContext.invoiceItems
                 .Include(ii => ii.Product)
@@ -43,14 +44,14 @@ namespace Invoice.Infstracture.Repositry
                 .Include(ii => ii.Invoices)
                 .AsQueryable();
 
-            if (startDate.HasValue)
+            if (filter.startDate.HasValue)
             {
-                query = query.Where(ii => ii.Invoices != null && ii.Invoices.Updated >= startDate.Value);
+                query = query.Where(ii => ii.Invoices != null && ii.Invoices.Updated >= filter.startDate.Value);
             }
 
-            if (endDate.HasValue)
+            if (filter.endDate.HasValue)
             {
-                query = query.Where(ii => ii.Invoices != null && ii.Invoices.Updated <= endDate.Value);
+                query = query.Where(ii => ii.Invoices != null && ii.Invoices.Updated <= filter.endDate.Value);
             }
 
             return await query.ToListAsync();

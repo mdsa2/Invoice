@@ -3,6 +3,7 @@
 
 using Invoice.Application.Product.ProductDto;
 using Invoice.Domain.Entites;
+using Invoice.Domain.Filter;
 
 namespace Invoice.Application.Product.Services
 {
@@ -12,6 +13,6 @@ namespace Invoice.Application.Product.Services
         Task<bool> DeleteProductAsync(int id);
         Task<Products> AddProductAsync(ProductDtos productDto);
         Task<Products> GetProductByIdAsync(int id);
-        Task <List<CreatedProductResponse>> GetAllProductsAsync(DateTime? startDate,DateTime? endDate);
+        Task <List<CreatedProductResponse>> GetAllProductsAsync(ProductFilter filter);
     }
 }

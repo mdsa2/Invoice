@@ -5,6 +5,7 @@ using Invoice.Domain.Entites;
 using Invoice.Application.InvoiceItems.InvoiceItemDto;
 using Invoice.Application.ProductDiscount.ProductDiscountDtos;
 using Microsoft.EntityFrameworkCore;
+using Invoice.Domain.Filter;
 namespace Invoice.Application.Product.Services
 {
     public class ProductServic(IProductRepositry productRepositry , IMapper _mapper)  : IProductService 
@@ -41,10 +42,10 @@ namespace Invoice.Application.Product.Services
 
 
     
-            public async Task<List<CreatedProductResponse>> GetAllProductsAsync(DateTime? startDate,DateTime? endDate)
+            public async Task<List<CreatedProductResponse>> GetAllProductsAsync(ProductFilter filter)
         {
             
-            var products = await productRepositry.GetInvoiceItemsAsync(startDate,endDate);
+            var products = await productRepositry.GetAllProducts(filter);
 
             
             var productResponses = products.Select(products => _mapper.Map<CreatedProductResponse>(products)).ToList();

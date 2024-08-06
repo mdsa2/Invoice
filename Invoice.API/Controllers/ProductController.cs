@@ -1,7 +1,7 @@
 ﻿using Invoice.Application.Invoice.InvoiceDto;
 using Invoice.Application.Product.ProductDto;
 using Invoice.Application.Product.Services;
-
+using Invoice.Domain.Filter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TaskInvoice.Controllers
@@ -18,9 +18,9 @@ namespace TaskInvoice.Controllers
         }
  
         [HttpGet]
-        public async Task<ActionResult<List<CreatedProductResponse>>> GetProducts()
+        public async Task<ActionResult<List<CreatedProductResponse>>> GetProducts([FromQuery]ProductFilter filter)
         {
-            var products = await _productService.GetAllProductsAsync();
+            var products = await _productService.GetAllProductsAsync(filter);
             return Ok(products);
         }
 

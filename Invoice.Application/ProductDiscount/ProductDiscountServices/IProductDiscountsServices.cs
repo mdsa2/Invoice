@@ -1,6 +1,7 @@
 ﻿using Invoice.Application.Product.ProductDto;
 using Invoice.Application.ProductDiscount.ProductDiscountDtos;
 using Invoice.Domain.Entites;
+using Invoice.Domain.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace Invoice.Application.ProductDiscount.ProductDiscountServices
         Task<bool> DeleteProductDiscountAsync(int id);
         Task<CreateProductDiscountRepsonse> AddProductAsync( ProductDiscountDto productDiscountsDto);
         Task<ProductDiscounts> GetProductByIdAsync(int id);
-        Task<List<CreateProductDiscountRepsonse>> GetAllProductsAsync();
+        Task<List<CreateProductDiscountRepsonse>> GetAllProductsAsync(ProductDiscountFilter filter);
     }
 }

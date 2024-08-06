@@ -1,5 +1,6 @@
 ﻿using Invoice.Application.InvoiceItems.InvoiceItemDto;
 using Invoice.Application.InvoiceItems.Services;
+using Invoice.Domain.Filter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TaskInvoice.Controllers
@@ -42,15 +43,15 @@ namespace TaskInvoice.Controllers
             return Ok(result);
         }
         [HttpGet("monthly-discount-report")]
-        public async Task<IActionResult> GetMonthlyDiscountReport([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        public async Task<IActionResult> GetMonthlyDiscountReport([FromQuery] InvoiceItemFilter filter)
         {
-            var report = await _invoiceItemService.GetMonthlyReportDiscountAsync(startDate, endDate);
+            var report = await _invoiceItemService.GetMonthlyReportDiscountAsync(filter);
             return Ok(report);
         }
         [HttpGet("Product-Sales")]
-        public async Task<IActionResult> GetProductSales([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        public async Task<IActionResult> GetProductSales([FromQuery] InvoiceItemFilter filter)
         {
-            var report = await _invoiceItemService.GetProductSalesReportAsync(startDate, endDate);
+            var report = await _invoiceItemService.GetProductSalesReportAsync(filter);
             return Ok(report);
         }
         [HttpPut("{id}")]

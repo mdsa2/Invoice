@@ -1,5 +1,6 @@
 ﻿using Invoice.Domain.Entites;
 using Invoice.Domain.Filter;
+using Invoice.Domain.Util;
  
 namespace Invoice.Domain.Repositry
 {
@@ -7,7 +8,7 @@ namespace Invoice.Domain.Repositry
     {
         Task<Products> GetProductById(int id);
         Task AddProduct(Products product);
-        Task<List<InvoiceItem>> GetInvoiceItemsAsync(DateTime? startDate ,DateTime? endDate);
+        Task<PaginatedList<Products>> GetAllProducts(ProductFilter filter);
 
 
         Task UpdateProduct(Products product);

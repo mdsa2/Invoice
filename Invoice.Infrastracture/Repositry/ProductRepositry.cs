@@ -2,27 +2,19 @@
 using Invoice.Domain.Repositry;
 using Microsoft.EntityFrameworkCore;
 using Invoice.Infstracture.DataInvoice;
-using Invoice.Application.Wrapper;
+ 
 using Invoice.Domain.Filter;
+using Invoice.Domain.Util;
 namespace Invoice.Infstracture.Repositry
 {
     public class ProductRepositry(DataDbContext dbContext) : IProductRepositry
     {
-        public async Task<PaginatedList<InvoiceItem>> GetInvoiceItemsAsync(InvoiceItemFilter filter)
+        public async Task<PaginatedList<Products>> GetAllProducts(ProductFilter filter)
         {
-            var query = dbContext.invoiceItems.AsQueryable();
+            var query = dbContext.Products.AsQueryable();
 
-            if (filter.startDate.HasValue)
-            {
-                query = query.Where(i => i.CreatedAt >= filter.startDate.Value);
-            }
-
-            if (filter.endDate.HasValue)
-            {
-                query = query.Where(i => i.CreatedAt <= filter.endDate.Value);
-            }
-
-            return await Task.FromResult(PaginatedList<InvoiceItem>.Create(query, filter.PageNumber, filter.PageSize));
+     
+            return await PaginatedList<Products>.CreateAsync(query, filter.PageNumber, filter.PageSize);
         }
 
 

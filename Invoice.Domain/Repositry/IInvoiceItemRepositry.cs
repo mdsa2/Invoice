@@ -1,4 +1,5 @@
 ﻿using Invoice.Domain.Entites;
+using Invoice.Domain.Filter;
  
 namespace Invoice.Domain.Repositry
 {
@@ -6,7 +7,7 @@ namespace Invoice.Domain.Repositry
     {
         Task<InvoiceItem> GetInvoiceById(int invoiceId);
         Task AddInvoice(InvoiceItem invoice);
-        Task<List<InvoiceItem>> GetInvoiceItem(DateTime? startdate, DateTime? Endate);
+        Task<List<InvoiceItem>> GetInvoiceItem(InvoiceItemFilter filter);
         Task UpdateInvoice(InvoiceItem invoice);
        
         void DeleteInvoice(InvoiceItem invoiceItem);

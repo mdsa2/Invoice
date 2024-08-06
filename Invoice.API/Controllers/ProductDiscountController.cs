@@ -1,6 +1,7 @@
 ﻿using Invoice.Application.Product.ProductDto;
 using Invoice.Application.ProductDiscount.ProductDiscountDtos;
 using Invoice.Application.ProductDiscount.ProductDiscountServices;
+using Invoice.Domain.Filter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TaskInvoice.Controllers
@@ -17,9 +18,9 @@ namespace TaskInvoice.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductDiscountDto>>> GetAllProductDiscounts()
+        public async Task<ActionResult<List<ProductDiscountDto>>> GetAllProductDiscounts([FromQuery] ProductDiscountFilter filter)
         {
-            var productDiscounts = await _productDiscountsServices.GetAllProductsAsync();
+            var productDiscounts = await _productDiscountsServices.GetAllProductsAsync(filter);
             return Ok(productDiscounts);
         }
         [HttpGet("{id}")]

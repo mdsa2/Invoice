@@ -3,6 +3,7 @@ using Invoice.Application.InvoiceItems.InvoiceItemDto;
 using Invoice.Application.Product.ProductDto;
 using Invoice.Application.ProductDiscount.ProductDiscountDtos;
 using Invoice.Domain.Entites;
+using Invoice.Domain.Filter;
 using Invoice.Domain.Repositry;
 using System;
 using System.Collections.Generic;
@@ -45,9 +46,9 @@ namespace Invoice.Application.ProductDiscount.ProductDiscountServices
             return true;
         }
 
-        public async Task<List<CreateProductDiscountRepsonse>> GetAllProductsAsync()
+        public async Task<List<CreateProductDiscountRepsonse>> GetAllProductsAsync(ProductDiscountFilter filter)
         {
-            var productDiscounts = await productDiscountRepositry.GetProductsDiscounts();
+            var productDiscounts = await productDiscountRepositry.GetProductsDiscounts(filter);
             var productDiscountDtos = mapper.Map<List<CreateProductDiscountRepsonse>>(productDiscounts);
             return productDiscountDtos;
         }
